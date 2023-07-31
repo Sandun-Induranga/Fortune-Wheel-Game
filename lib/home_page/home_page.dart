@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fortune_wheel_game/widget/spin_wheel.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const SpinWheel();
   }
 }
