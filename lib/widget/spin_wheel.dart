@@ -29,6 +29,29 @@ class _SpinWheelState extends State<SpinWheel> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 100,
+                vertical: 20,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+                borderRadius: BorderRadius.circular(
+                  20,
+                ),
+              ),
+              child: Text(
+                rewards.toString(),
+                style: const TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 60,
+            ),
             SizedBox(
               height: 300,
               child: FortuneWheel(
@@ -36,7 +59,11 @@ class _SpinWheelState extends State<SpinWheel> {
                 animateFirst: false,
                 items: [
                   for (int i = 0; i < items.length; i++) ...<FortuneItem>{
-                    FortuneItem(child: Text(items[i].toString())),
+                    FortuneItem(
+                      child: Text(
+                        items[i].toString(),
+                      ),
+                    ),
                   },
                 ],
                 onAnimationEnd: () {
@@ -45,24 +72,44 @@ class _SpinWheelState extends State<SpinWheel> {
                   });
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(rewards.toString()),
+                      content: Text(
+                        rewards.toString(),
+                      ),
                     ),
                   );
                 },
               ),
             ),
-            GestureDetector(
-              onTap: () {
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(
+                  Colors.blue,
+                ),
+                padding: MaterialStateProperty.all(
+                  const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 8,
+                  ),
+                ),
+              ),
+              onPressed: () {
                 setState(() {
-                  selected.add(Fortune.randomInt(0, items.length));
+                  selected.add(
+                    Fortune.randomInt(
+                      0,
+                      items.length,
+                    ),
+                  );
                 });
               },
-              child: Container(
-                height: 40,
-                width: 120,
-                color: Colors.redAccent,
-                child: const Center(
-                  child: Text("SPIN"),
+              child: const Text(
+                'SPIN',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.white,
                 ),
               ),
             ),
