@@ -12,6 +12,7 @@ class SpinWheel extends StatefulWidget {
 class _SpinWheelState extends State<SpinWheel> {
   final selected = BehaviorSubject<int>();
   int rewards = 0;
+  int count = 0;
 
   List<int> items = [100, 200, 500, 1000, 2000];
 
@@ -24,6 +25,12 @@ class _SpinWheelState extends State<SpinWheel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color.fromARGB(
+        255,
+        0,
+        30,
+        55,
+      ),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,6 +57,17 @@ class _SpinWheelState extends State<SpinWheel> {
               ),
             ),
             const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'SPIN COUNT: $count',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(
               height: 60,
             ),
             SizedBox(
@@ -68,12 +86,12 @@ class _SpinWheelState extends State<SpinWheel> {
                 ],
                 onAnimationEnd: () {
                   setState(() {
-                    rewards = items[selected.value];
+                    rewards += items[selected.value];
                   });
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
-                        rewards.toString(),
+                        'You Received ${items[selected.value]}..!',
                       ),
                     ),
                   );
@@ -83,36 +101,58 @@ class _SpinWheelState extends State<SpinWheel> {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  Colors.blue,
-                ),
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(
-                    horizontal: 40,
-                    vertical: 8,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Colors.blue,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SpinWheel(),
+                      ),
+                    );
+                  },
+                  child: const Icon(
+                    Icons.refresh,
+                    color: Colors.white,
                   ),
                 ),
-              ),
-              onPressed: () {
-                setState(() {
-                  selected.add(
-                    Fortune.randomInt(
-                      0,
-                      items.length,
-                    ),
-                  );
-                });
-              },
-              child: const Text(
-                'SPIN',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.white,
+                const SizedBox(
+                  width: 20,
                 ),
-              ),
-            ),
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      Colors.blue,
+                    ),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      count++;
+                      selected.add(
+                        Fortune.randomInt(
+                          0,
+                          items.length,
+                        ),
+                      );
+                    });
+                  },
+                  child: const Text(
+                    'SPIN',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
